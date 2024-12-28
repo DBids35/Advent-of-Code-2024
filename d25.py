@@ -26,12 +26,26 @@ def input_to_keys_and_locks(input: list[list[str]]) -> tuple[list[list[list[int]
 
 	return format_keys(keys), format_locks(locks)
 
+def check_pair(key, lock):
+
+	for x,y in zip(key,lock):
+		if x+y > 5:
+			return False
+		
+	return True
+
 def main():
 	input = get_input()
 	input = input_to_list_of_lists(input)
 	keys, locks = input_to_keys_and_locks(input)
-	print(locks)
-	return keys, locks
+
+	fit = 0
+
+	for key in keys:
+		for lock in locks:
+			if check_pair(key, lock):
+				fit +=1
+	return fit
 
 if __name__ == "__main__":
-	keys, locks = main()
+	print(main())
