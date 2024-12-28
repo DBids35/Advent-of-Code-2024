@@ -11,7 +11,10 @@ def get_input() -> list[str]:
 def input_to_list_of_lists(input):
 	return [list(group) for key, group in groupby(input, key=lambda x: x != '') if key]
 
-def keys_format(keys:list[list[str]]) -> list[list[int]]:
+def format_keys(keys:list[list[str]]) -> list[list[int]]:
+	pass
+
+def format_locks(locks:list[list[str]]) -> list[list[int]]:
 	pass
 
 def input_to_keys_and_locks(input: list[str]) -> tuple[list[list[int]], list[list[int]]]:
@@ -19,10 +22,11 @@ def input_to_keys_and_locks(input: list[str]) -> tuple[list[list[int]], list[lis
 	keys = [x for x in list_of_lists if x[0] == "....." and x[6] == "#####"]
 	locks = [x for x in list_of_lists if x not in keys]
 
-	return [[1]], [[3]]
+	return format_keys(keys), format_locks(locks)
 
 def main():
 	input = get_input()
+	input = input_to_list_of_lists(input)
 
 	return input
 
