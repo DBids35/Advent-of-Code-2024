@@ -20,9 +20,11 @@ def secretize(secret_number: int) -> int:
 	return prune(num)
 
 def n_secretizes(n, secret_num):
+	secret_nums = [secret_num]
 	for i in range(n):
 		secret_num = secretize(secret_num)
-	return secret_num
+		secret_nums.append(secret_num)
+	return secret_nums
 
 def main():
 	input = get_input()
@@ -42,15 +44,30 @@ def diffs_to_set_of_sequences(diffs):
 	return {tuple(diffs[i:i+4]) for i in range(len(diffs) - 3)}
 
 def p2():
+
+	input = get_input()
+
 	# create a master dictionary to hold sequences and their occurrences
+	master_seqs = {}
 	# for each monkey:
-	#	convert secret numbers to prices, then differences
-	# 	create a set of sequences that appear
-	#	update the master dictionary with the results of the set (add key if it's a new sequence, add one if it's already in)
+	for secret_num_start in input:
+		secret_nums = n_secretizes(2000, secret_num_start)
+		# convert secret numbers to prices, then differences
+		prices = secret_nums_to_prices(secret_nums)
+		diffs = prices_to_diffs(prices)
+		# create a set of sequences that appear
+		seqs = diffs_to_set_of_sequences(diffs)
+		# update the master dictionary with the results of the set (add key if it's a new sequence, add one if it's already in)
+		for seq in seqs:
+			if seq not in master_seqs.keys():
+				master_seqs[seq] = 1
+			else:
+				master_seqs[seq] += 1
 	# iterate through the dictionary to find the sequence where the the sum of the differences * count is highest
-	pass
+	seqs_score = {key: sum(key) * val for key, val in master_seqs.items()}
+	print(sorted(seqs_score.items(), key=lambda item: item[1], reverse=True)[:10])
 
 if __name__ == "__main__":
-	main()
+	p2 ()
 
 
