@@ -32,6 +32,15 @@ def main():
 		good.append(res)
 	print(sum(good))
 
+def secret_nums_to_prices(secret_nums):
+	return [x % 10 for x in secret_nums]
+
+def prices_to_diffs(prices):
+	return [0] + [j - i for i, j in zip(prices[:-1], prices[1:])]
+
+def diffs_to_set_of_sequences(diffs):
+	return {tuple(diffs[i:i+4]) for i in range(len(diffs) - 3)}
+
 def p2():
 	# create a master dictionary to hold sequences and their occurrences
 	# for each monkey:
