@@ -32,6 +32,15 @@ def main():
 		good.append(res)
 	print(sum(good))
 
+def p2():
+	# create a master dictionary to hold sequences and their occurrences
+	# for each monkey:
+	#	convert secret numbers to prices, then differences
+	# 	create a set of sequences that appear
+	#	update the master dictionary with the results of the set (add key if it's a new sequence, add one if it's already in)
+	# iterate through the dictionary to find the sequence where the the sum of the differences * count is highest
+	pass
+
 if __name__ == "__main__":
 	main()
 
