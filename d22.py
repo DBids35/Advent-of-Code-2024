@@ -40,8 +40,15 @@ def secret_nums_to_prices(secret_nums):
 def prices_to_diffs(prices):
 	return [0] + [j - i for i, j in zip(prices[:-1], prices[1:])]
 
-def diffs_to_set_of_sequences(diffs):
-	return {tuple(diffs[i:i+4]) for i in range(len(diffs) - 3)}
+def diffs_to_sequences_dict(diffs:list[int], prices):
+	'''Get a list of diffs (integers) and convert it to a dictionary with keys as sequences and values as the price that would result'''
+	seqs:dict = {}
+	for i in range(len(diffs) - 4):
+		seq = tuple(diffs[i:i+4])
+		if seq in seqs.keys():
+			continue
+		seqs[seq] = prices[i+3]
+	return seqs
 
 def p2():
 
@@ -56,16 +63,15 @@ def p2():
 		prices = secret_nums_to_prices(secret_nums)
 		diffs = prices_to_diffs(prices)
 		# create a set of sequences that appear
-		seqs = diffs_to_set_of_sequences(diffs)
+		seqs = diffs_to_sequences_dict(diffs, prices)
 		# update the master dictionary with the results of the set (add key if it's a new sequence, add one if it's already in)
-		for seq in seqs:
+		for seq, price in seqs.items():
 			if seq not in master_seqs.keys():
-				master_seqs[seq] = 1
+				master_seqs[seq] = price
 			else:
-				master_seqs[seq] += 1
-	# iterate through the dictionary to find the sequence where the the sum of the differences * count is highest
-	seqs_score = {key: sum(key) * val for key, val in master_seqs.items()}
-	print(sorted(seqs_score.items(), key=lambda item: item[1], reverse=True)[:10])
+				master_seqs[seq] += price
+	
+	print(sorted(master_seqs.items(), key=lambda item: item[1], reverse=True)[:10])
 
 if __name__ == "__main__":
 	p2 ()
