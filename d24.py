@@ -13,13 +13,42 @@ def raw_input_to_input(raw_input:list[str]):
 	gates = raw_input[split_index + 1:]
 	gates = [process_gate_str(x) for x in gates]
 	return wires_dict, gates
+
+def check_for_z_gate(gates:list[tuple[str,str,str,str]]):
+	remaining_targets = {x[3][0] for x in gates}
 	
-def p1(input):
-	# create a dict of knowns filled with initial knowns
-	pass
+	return "z" in remaining_targets
+
+def process_gate(val1, operator, val2):
+	match operator:
+		case "AND":
+			return val1 & val2
+		case "OR":
+			return val1 | val2
+		case "XOR":
+			return val1 ^ val2
+		case _:
+			print("pooped the bed")
+			return 
+
+	
+def p1(wires:dict, gates):
+	# while gates contains a gate with a target value starting with z
+	while check_for_z_gate(gates):
+		# for gate in gates:
+		for gate in gates:
+			in1, operator, in2, target = gate
+			# if this gate can be handled by known wires
+			if in1 in wires.keys() and in2 in wires.keys():
+				# handle
+				# add result to wires
+				wires[target] =  process_gate(wires[in1], operator, wires[in2])
+
+				# remove from gates
+				gates.pop(gates.index(gate))
+	return wires
 
 if __name__ == "__main__":
 	raw_input = get_raw_input()
 	wires, gates = raw_input_to_input(raw_input) 
-	print(wires, gates)
-	p1(input)
+	print(p1(wires, gates))
