@@ -48,7 +48,17 @@ def p1(wires:dict, gates):
 				gates.pop(gates.index(gate))
 	return wires
 
+def parse_output_wires(wires):
+	z_wires = sorted({key:val for key, val in wires.items() if key[0] == "z"}.items())
+	print(z_wires)
+	binary_str = ""
+	for wire in z_wires:
+		binary_str+=str(wire[1])
+	print(binary_str)
+	return int(binary_str[::-1], 2)
+
 if __name__ == "__main__":
 	raw_input = get_raw_input()
 	wires, gates = raw_input_to_input(raw_input) 
-	print(p1(wires, gates))
+	wires = p1(wires, gates)
+	print(parse_output_wires(wires))
